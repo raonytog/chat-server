@@ -1,6 +1,7 @@
 all:
+	clear
 	gnome-terminal &
 	python3 server.py
 
-telnet:
+tln:
 	telnet 127.0.0.1 65432
