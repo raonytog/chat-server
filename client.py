@@ -56,7 +56,7 @@ def start_client():
     send_thread.join()
     
     stop_event.set()
-    print("Você foi desconectado.")
+    print(f"{nickname} foi desconectado.")
 
 if __name__ == '__main__':
     start_client()
