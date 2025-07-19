@@ -1,4 +1,8 @@
-# stress.py
+#
+# Esse arquivo foi gerado inteiramente com o Gemini
+# para efetuar os testes mais facilmente
+#
+
 import socket
 import threading
 import time

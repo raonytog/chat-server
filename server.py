@@ -16,6 +16,7 @@ def server_input():
         try:
             msg = input()
             broadcast(f"{MAGENTA}[Servidor]:{DEFAULT} {msg}\n".encode())
+            
         except:
             break
 
@@ -144,8 +145,10 @@ def handle_client(client):
                         else:
                             room_list = "\n".join(rooms.keys())
                             client.send(f"{MAGENTA}[Servidor]{DEFAULT} Salas disponíveis:\n{room_list}\n".encode())
-                    
+                
+                # envia normalmente a mensagem para todos os usuarios da sala, com excessao do remetente
                 else:
+                    # servidor recebendo a mensagem
                     print(f"[{room_name}] {nickname}: {decoded}")
 
                     if client in client_room:

@@ -18,7 +18,9 @@ def receive_messages(sock, stop_event):
 def send_messages(sock, nickname, stop_event):
     """Envia mensagens digitadas pelo usuário para o servidor."""
     try:
+        # envia primeiro o nick do user
         sock.send(nickname.encode())
+        
     except:
         print("Nickname não enviado.")
         stop_event.set()
@@ -32,6 +34,7 @@ def send_messages(sock, nickname, stop_event):
                 sock.close()
                 break
             sock.send(msg.encode())
+            
         except:
             print("Falha ao enviar a mensagem")
             stop_event.set()
@@ -41,6 +44,7 @@ def start_client():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         client_socket.connect((HOST, PORT))
+        
     except ConnectionRefusedError:
         print("Falha ao conectar com o servidor.")
         return
@@ -53,7 +57,7 @@ def start_client():
 
     send_thread = threading.Thread(target=send_messages, args=(client_socket, nickname, stop_event))
     send_thread.start()
-    send_thread.join()
+    send_thread.join() # pois ela so vai acabar quando o cliente digitar /sair
     
     stop_event.set()
     print(f"{nickname} foi desconectado.")
