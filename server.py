@@ -39,14 +39,15 @@ def broadcast(msg, sender_client=None, room_name=None):
                     client.close()
                     remove_client(client)
     
-    # else:
-    #     for client in clients:
-    #          if client != sender_client:
-    #             try:
-    #                 client.send(msg)
-    #             except:
-    #                 client.close()
-    #                 remove_client(client)
+    # para o servidor enviar mensagem a todos os clientes, independente da sala
+    else:
+        for client in clients:
+             if client != sender_client:
+                try:
+                    client.send(msg)
+                except:
+                    client.close()
+                    remove_client(client)
 
 def remove_client(client):
     """ Remove um cliente do servidor e de qualquer sala em que esteja. """
