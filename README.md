@@ -34,7 +34,7 @@ make stress
 [x] Listagem de salas.
 [x] Trocar/Sair da sala: Trocar de sala basta entrar em outra que o servidor já expulsa o usuário da sala atual. Para sair da sala, basta parar a aplicação. 
 [x] Sair da aplicação.
-[x] Autenticação SSL.
+[x] Autenticação TLS para criptografar bytes em tráfego/ gerar identidade do servidor e autenticação simples(usuário e senha) para login.
 [x] Salas pública e salas privadas.
 [x] Suporte a múltiplas salas.
 
