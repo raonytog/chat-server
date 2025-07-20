@@ -29,17 +29,17 @@ make stress
 ```
 
 ## Funcionalidades implementadas
-[x] Mensagens entregues apenas para os usuários da mesma sala e o servidor.
-[x] Criar salas.
-[x] Listagem de salas.
-[x] Trocar/Sair da sala: Trocar de sala basta entrar em outra que o servidor já expulsa o usuário da sala atual. Para sair da sala, basta parar a aplicação. 
-[x] Sair da aplicação.
-[x] Autenticação TLS para criptografar bytes em tráfego/ gerar identidade do servidor e autenticação simples(usuário e senha) para login.
-[x] Salas pública e salas privadas.
-[x] Suporte a múltiplas salas.
+- [x] Mensagens entregues apenas para os usuários da mesma sala e o servidor.
+- [x] Criar salas.
+- [x] Listagem de salas.
+- [x] Trocar/Sair da sala: Trocar de sala basta entrar em outra que o servidor já expulsa o usuário da sala atual. Para sair da sala, basta parar a aplicação. 
+- [x] Sair da aplicação.
+- [x] Autenticação TLS para criptografar bytes em tráfego/ gerar identidade do servidor e autenticação simples(usuário e senha) para login.
+- [x] Salas pública e salas privadas.
+- [x] Suporte a múltiplas salas.
 
 ## Possíveis melhorias 
-1. Interface gráfica
++ Interface gráfica
 
 
 
