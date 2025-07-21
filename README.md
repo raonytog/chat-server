@@ -41,8 +41,6 @@ O alvo executa um script que abre diversos clientes de forma automatizada para v
 ## Possíveis melhorias
 * Interface gráfica (ex.: PySide, Tkinter ou Electron + websocket‑bridge)
 * Históricos persistentes em arquivo ou banco
-* Comandos de moderação (kick, ban, mute)
-* Upload de arquivos entre participantes
 ---
 
 ## Descrição das Funções
