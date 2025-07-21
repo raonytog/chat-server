@@ -1,75 +1,61 @@
-import socket
-import ssl
-import threading
-import time
-import sys
-import random
-from const import *
+import socket, ssl, threading, time
+from const import HOST, PORT, BYTES
 
-room_creation_lock = threading.Lock()
-rooms_created = set()
+NUM_USERS = 1000
+USERS_PER_ROOM = 20
 
-def client_receiver(sock, stop_event):
-    while not stop_event.is_set():
-        try:
-            sock.settimeout(1.0)
-            if not sock.recv(BYTES):
-                break
-        except:
-            continue
-
-def run_stress_client(client_id, num_rooms, messages_per_bot):
+def client_simulation(user_id):
     try:
-        base = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         context = ssl.create_default_context()
         context.check_hostname = False
         context.verify_mode = ssl.CERT_NONE
-        base.connect((HOST, PORT))
-        client_socket = context.wrap_socket(base, server_hostname=HOST)
 
-        nickname = f"Bot_{client_id}"
-        client_socket.send(f"/login {nickname} pwd".encode())
+        sock.connect((HOST, PORT))
+        ssl_sock = context.wrap_socket(sock, server_hostname=HOST)
+
+        # Login
+        ssl_sock.send(f"/login user{user_id} senha{user_id}\n".encode())
+        time.sleep(0.01)
+
+        # Determina a sala com base no índice do usuário
+        room_id = user_id // USERS_PER_ROOM + 1
+        room_name = f"sala{room_id}"
+
+        # Cria a sala se for o primeiro da faixa
+        if user_id % USERS_PER_ROOM == 0:
+            ssl_sock.send(f"/criar {room_name}\n".encode())
+            print(f"[user{user_id}] Criou a sala: {room_name}")
+        else:
+            time.sleep(0.02)
+            ssl_sock.send(f"/entrar {room_name}\n".encode())
+            print(f"[user{user_id}] Entrou na sala: {room_name}")
+
+        time.sleep(0.03)
+
+        # Envia mensagem
+        msg = f"Olá de user{user_id} na {room_name}!"
+        ssl_sock.send(f"{msg}\n".encode())
+        print(f"[user{user_id}] Enviou mensagem: {msg}")
+
         time.sleep(0.05)
 
-        stop_event = threading.Event()
-        threading.Thread(target=client_receiver, args=(client_socket, stop_event)).start()
+        ssl_sock.close()
+        print(f"[user{user_id}] Desconectado.")
+    except Exception as e:
+        print(f"[Erro] user{user_id}: {e}")
 
-        room_name = f"Sala_Estresse_{client_id % num_rooms}"
-        with room_creation_lock:
-            if room_name not in rooms_created:
-                cmd = f"/criar {room_name} priv"
-                rooms_created.add(room_name)
-            else:
-                cmd = f"/entrar {room_name} priv"
-        client_socket.send(cmd.encode())
-        time.sleep(0.1)
+# Criando e iniciando threads
+threads = []
 
-        for i in range(messages_per_bot):
-            msg = f"Olá da {room_name} {i+1}"
-            client_socket.send(msg.encode())
-            time.sleep(random.uniform(0.1, 0.5))
+for i in range(NUM_USERS):
+    t = threading.Thread(target=client_simulation, args=(i,))
+    threads.append(t)
+    t.start()
+    time.sleep(0.005)  # espaçamento mínimo para aliviar carga de conexão
 
-        client_socket.send("/sair".encode())
-        time.sleep(0.1)
-        print(f"[{nickname}] ok")
-    except:
-        print(f"[{nickname}] erro")
-    finally:
-        stop_event.set()
-        client_socket.close()
+# Espera todas as threads finalizarem
+for t in threads:
+    t.join()
 
-def main():
-    n = int(sys.argv[1]) if len(sys.argv) > 1 else 100
-    r = int(sys.argv[2]) if len(sys.argv) > 2 else 10
-    m = int(sys.argv[3]) if len(sys.argv) > 3 else 5
-    threads = []
-    for i in range(n):
-        time.sleep(0.01)
-        t = threading.Thread(target=run_stress_client, args=(i, r, m))
-        threads.append(t)
-        t.start()
-    for t in threads:
-        t.join()
-
-if __name__ == '__main__':
-    main()
+print("Teste de estresse com 1000 usuários concluído.")
