@@ -15,13 +15,16 @@ Este repositório contém uma aplicação de bate‑papo simples para a discipli
 
 ### Instruções
 ```bash
-# Terminal 1 – servidor
+# Clone do repositório para a máquina em diretório local
+git clone https://github.com/raonytog/chat-server.git
+
+# Terminal 1: servidor
 make sv
 
-# Terminal 2 ou + – cliente(s)
+# Terminal 2 ou mais: cliente(s)
 make cl
 ```
-Após iniciar o cliente, informe **usuário** e **senha**. É possível criar ou entrar em salas e conversar.
+Após iniciar o cliente, informe **usuário** e **senha**. É possível criar ou entrar em salas e conversar. Para testar diferentes valores, basta alterar **NUM_USERS** para modificar o número de usuários ativos totais e **USERS_PER_ROOM** para modificar o números de usuários máximos por sala.
 
 ## Como testar carga
 ```bash
