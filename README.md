@@ -39,7 +39,7 @@ O alvo executa um script que abre diversos clientes de forma automatizada para v
 * ✅ Suporte a múltiplas salas simultâneas
 
 ## Possíveis melhorias
-* Interface gráfica (ex.: PySide, Tkinter ou Electron + websocket‑bridge)
+* Interface gráfica
 * Históricos persistentes em arquivo ou banco
 ---
 
