@@ -47,12 +47,18 @@ O alvo executa um script que abre diversos clientes de forma automatizada para v
 A seguir, um panorama de cada função/ferramenta presente no código‑fonte:
 
 ### `server.py`
-Script para testes automáticos de carga.
-| Função              | Responsabilidade                                              |
-| ------------------- | ------------------------------------------------------------- |
-| `spawn_clients(n)`  | Abre `n` conexões simultâneas ao servidor                     |
-| `simulate_client()` | Realiza login e troca mensagens básicas automatizadas         |
-| Uso principal       | Avaliar desempenho, estabilidade e simultaneidade do servidor |
+| Função                                                     | Responsabilidade                                                                                                                                                 | Passos principais                                                         |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **`server_input()`**                                       | Permite que o operador digite mensagens no terminal do servidor; as mensagens são enviadas para todos os clientes como avisos do sistema.                        | • Aguarda `input()`                                                       |
+| • Chama `broadcast()` com a mensagem                       |                                                                                                                                                                  |                                                                           |
+| **`broadcast(msg, sender_client=None, room_name=None)`**   | Encaminha `msg` para todos os sockets‑alvo. Se `room_name` for especificado, envia somente aos participantes daquela sala. Ignora o remetente (`sender_client`). | • Define alvo (`rooms[room_name].participants` ou lista global `clients`) |
+| • Tenta `send()` em cada socket                            |                                                                                                                                                                  |                                                                           |
+| • Em caso de erro, fecha socket e invoca `remove_client()` |                                                                                                                                                                  |                                                                           |
+| **`remove_client(cli)`**                                   | Limpa todo o estado associado a `cli` quando ocorre desconexão.                                                                                                  | • Remove de `clients`/`nicknames`                                         |
+| • Remove da sala atual (`client_room`)                     |                                                                                                                                                                  |                                                                           |
+| • Exclui a sala se ficou vazia                             |                                                                                                                                                                  |                                                                           |
+| • Anuncia saída aos demais                                 |                                                                                                                                                                  |                                                                           |
+| **`handle_client(cli)`**                                   | Loop principal por cliente: autentica, interpreta comandos e repassa mensagens.                                                                                  | **Fases**:                                                                |
 
 
 1. *Login* – exige `/login <user> <senha>`
@@ -89,6 +95,15 @@ Arquivo de *constantes* globais utilizadas em servidor e cliente:
 | `CERTFILE`, `KEYFILE`         | Caminhos para o certificado e chave TLS               |
 | `DEFAULT`, `VERDE`, `AZUL`, … | Sequências ANSI para colorir as mensagens no terminal |
 ---
+
+### `stress.py`
+Script para testes automáticos de carga.
+| Função              | Responsabilidade                                              |
+| ------------------- | ------------------------------------------------------------- |
+| `spawn_clients(n)`  | Abre `n` conexões simultâneas ao servidor                     |
+| `simulate_client()` | Realiza login e troca mensagens básicas automatizadas         |
+| Uso principal       | Avaliar desempenho, estabilidade e simultaneidade do servidor |
+
 
 💬 **Fluxo de execução simplificado**
 1. O servidor (`server.py`) inicia, ativa TLS e aguarda conexões.
