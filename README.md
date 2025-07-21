@@ -1,5 +1,9 @@
 # Chat‑Server
 
+<span style="color:red">
+rijqr
+</span>
+
 Este repositório contém uma aplicação de bate‑papo simples para a disciplina de Redes (Trabalho 2). O sistema permite vários clientes trocarem mensagens em salas distintas sobre conexões TCP protegidas por TLS.
 
 ## Tecnologias utilizadas
