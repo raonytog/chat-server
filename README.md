@@ -1,33 +1,45 @@
 # Chat-Server
 Este repositório é destinado para a disciplina de redes, para o trabalho 2. O objetivo é criar um simples sistema de bate-papo utilizando conexões TCP para entrega das mensagens para diversos clientes.
 
-# Tecnologias utilizadas
-Python3 e Makefile, apenas
+## Tecnologias utilizadas
+1. Python3
+2. Makefile
 
-# Como executar 
+## Como executar 
 ### Requisitos:
 1. Possuir a python3 instalado
 2. Bibliotecas de threading, socket, time e sys instaladas
 
 ### Instruções de execução
-1. Basta digitar `make sv` em um terminal
-2. Então, abrir um ou mais terminais e digitar `make cl`
-3. Em cada novo terminal aberto, digitar o nickname
-4. Criar ou entrar em uma sala existente
-5. E conversar!
+Digitar no terminal:
+```bash
+ make sv
+``` 
+Abrir um novo terminal ou mais no mesmo diretório e fornecer o comando:
+```bash
+make cl
+```
+Em cada terminal será possível fornecer o nome de usuário e sua senha.<br>
+Ao logar, pode-se criar uma sala ou entrar em uma existente.<br>
+Por fim, converse!
 
-# Como testar
-1. Basta digitar `make stress`
+## Como testar
+```bash
+make stress
+```
 
-# Funcionalidades implementadas
-1. Mensagens entregues apenas para os usuários da mesma sala e o servidor
-2.  Comandos para listagem e saida do chat
+## Funcionalidades implementadas
+- [x] Mensagens entregues apenas para os usuários da mesma sala e o servidor.
+- [x] Criar salas.
+- [x] Listagem de salas.
+- [x] Trocar/Sair da sala: Trocar de sala basta entrar em outra que o servidor já expulsa o usuário da sala atual. Para sair da sala, basta parar a aplicação. 
+- [x] Sair da aplicação.
+- [x] Autenticação TLS para criptografar bytes em tráfego/ gerar identidade do servidor e autenticação simples(usuário e senha) para login.
+- [x] Salas pública e salas privadas.
+- [x] Suporte a múltiplas salas.
 
--- -falta entrar e criar.
+## Possíveis melhorias 
++ Interface gráfica
 
--- -falta suportar multiplas salas
-
-# Possíveis melhorias 
-1. Interface gráfica
 
 
